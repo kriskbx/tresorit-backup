@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 for d in /home/tresorit/drive/*/ ; do
-    echo "Starting sync of $(basename $d)…"
-    rsync -arz --progress "$d" "/home/tresorit/external/$(basename $d)"
+	BASENAME=$(basename "$d")
+    echo "Starting sync of $BASENAME…"
+    rsync -arz --progress "$d" "/home/tresorit/external/$BASENAME"
 done
