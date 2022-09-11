@@ -38,15 +38,16 @@ docker run \
     kriskbx/tresorit-backup
 ```
 
-Cron will run your backup once a day at 3am. If you want to change the cron schedule, you can add a `SCHEDULE` environment variable:
+Now you can add custom cronjobs by adding env variables starting with `CRONTAB_` to back up your files from the mounted tresorit drive to your local machine. For exampe:
 
 ```
 docker run \
-    -e "SCHEDULE=0 8 * * *" \
+    -e "CRONTAB_MUSIC=0 8 * * * rsync -arz --progress /home/tresorit/drive/music/ /home/tresorit/external/music" \
+    -e "CRONTAB_PHOTOS=0 7 * * * rsync -arz --progress /home/tresorit/drive/photos/ /home/tresorit/external/photos" \
     # …
 ```
 
-To skip the automatic backup via rsync and Tresorit drive, use `SYNC_ONLY`:
+To skip the mounting of Tresorit drive, use `SYNC_ONLY`:
 
 ```
 docker run \

@@ -4,7 +4,6 @@ set -e
 BACKUP_SCRIPT=/usr/local/bin/tresorit-backup.sh
 
 SYNC_ONLY=${SYNC_ONLY:-false}
-SCHEDULE=${SCHEDULE:-"0 3 * * *"}
 
 echo "Starting tresorit cli…"
 tresorit-cli start
@@ -20,12 +19,11 @@ if [ "$SYNC_ONLY" = false ] && [ -f "/home/tresorit/Profiles/global.profile" ]; 
     # mount drive
     tresorit-cli drive --mount /home/tresorit/drive
 
-    # add backup script to crontab
-    echo "$SCHEDULE $BACKUP_SCRIPT" | crontab -
-
-    # run backup script once at startup
-    sh $BACKUP_SCRIPT
-
+    # add custom crontabs
+    for var in "${!CRONTAB_@}"; do
+        echo "${!var}" | crontab -
+    done
+    
 fi
 
 exec "$@"

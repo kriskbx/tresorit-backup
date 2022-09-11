@@ -29,8 +29,5 @@ USER root
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-COPY tresorit-backup.sh /usr/local/bin/tresorit-backup.sh
-RUN chmod +x /usr/local/bin/tresorit-backup.sh
-
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["cron", "-f"]
