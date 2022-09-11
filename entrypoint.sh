@@ -1,7 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 set -e
-
-BACKUP_SCRIPT=/usr/local/bin/tresorit-backup.sh
 
 SYNC_ONLY=${SYNC_ONLY:-false}
 
@@ -16,14 +14,18 @@ tresorit-cli logging --status
 
 if [ "$SYNC_ONLY" = false ] && [ -f "/home/tresorit/Profiles/global.profile" ]; then
 
-    # mount drive
-    tresorit-cli drive --mount /home/tresorit/drive
+  # mount drive
+  tresorit-cli drive --mount /home/tresorit/drive
 
-    # add custom crontabs
-    for var in "${!CRONTAB_@}"; do
-        echo "${!var}" | crontab -
-    done
-    
+  echo "" > /tmp/cron
+
+  # add custom crontabs
+  for var in "${!CRONTAB_@}"; do
+    echo "${!var}" >> /tmp/cron
+  done
+
+  crontab /tmp/cron
+
 fi
 
 exec "$@"
