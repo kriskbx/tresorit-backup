@@ -47,6 +47,14 @@ docker run \
     # …
 ```
 
+If you want to see the output of your commands in the container log, use the following:
+
+```
+docker run \
+    -e "CRONTAB_HELLO=* * * * * echo 'hello world' > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1"
+    # …
+```
+
 To skip the mounting of Tresorit drive, use `SYNC_ONLY`:
 
 ```
